@@ -1,0 +1,19 @@
+SELECT 
+NON EMPTY
+    {
+	[Measures].[Management Revenue Net Value],
+	[Measures].[Management Revenue Quantity BUoM]
+	} ON COLUMNS,
+NON EMPTY
+	(
+    [Calendar Sales Report].[Date].[Date].members *
+	[Partner].[Partner Planning Code].[Partner Planning Code].[ЦБ-ЦБ000357]*
+	[Organization].[Organization].[Organization].members*
+	[Article].[Article Sku].[Article Sku].members
+     )  ON ROWS
+FROM [Sales]
+WHERE 
+	{
+[Calendar Sales Report].[Year].&[2025],
+[Flag Sales Report].&[Включен]
+    }

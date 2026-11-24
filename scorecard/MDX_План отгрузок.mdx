@@ -1,0 +1,19 @@
+SELECT NON EMPTY
+{
+[Measures].[Plan Shipment Quantity BUoM],
+[Measures].[Plan Shipment Net Value]
+} ON 0,
+NON EMPTY
+(
+[Calendar Shipment Date].[Year Month].[Year Month].MEMBERS *
+[Partner].[Partner Planning Code].[Partner Planning Code].Members *
+--[Organization].[Organization].[Organization].members*
+[Article].[Article Sku].[Article Sku].MEMBERS
+) ON 1
+FROM [Sales]
+WHERE 
+[Calendar Shipment Date].[Year].[2024]
+:
+[Calendar Shipment Date].[Year].[2025]
+
+

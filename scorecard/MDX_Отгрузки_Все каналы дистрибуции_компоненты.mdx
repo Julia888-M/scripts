@@ -1,0 +1,15 @@
+SELECT
+NON EMPTY{
+	[Measures].[Delivered Shipment Component Net Value],
+    [Measures].[Delivered Shipment Component Quantity BUoM]
+    } ON COLUMNS,
+NON EMPTY(
+    [Calendar Shipment Date].[Date].[Date].MEMBERS *
+	[Partner].[Partner Planning Code].[Partner Planning Code] *
+	[Organization].[Organization].[Organization].members*
+	[Article].[Article Sku].[Article Sku].members*
+	[Article Component].[Article Component Sku].[Article Component Sku].members
+	) ON ROWS
+FROM [Sales]
+WHERE {[Calendar Shipment Date].[Year].&[2024],
+[Calendar Shipment Date].[Year].&[2025]}

@@ -1,0 +1,27 @@
+SELECT 
+{
+[Measures].[Management Revenue Component Net Value],
+[Measures].[Management Revenue Component Quantity BUoM],
+[Measures].[Management Revenue Quantity BUoM],
+[Measures].[Management Revenue Not Completed Component Quantity BUoM],
+[Measures].[Management Revenue Not Completed Component Net Value],
+[Measures].[Management Revenue Not Completed Quantity BUoM]
+} ON COLUMNS,
+NON EMPTY
+(
+[Calendar Sales Report].[Date].[Date] *
+[Order].[Order Date].[Order Date] *
+[Partner SCD Test].[Partner Planning Code].[Partner Planning Code] *
+[Partner SCD Test].[Partner Planning Name].[Partner Planning Name] *
+EXCEPT ([Partner SCD Test].[Distribution Channel 1 Name].[Distribution Channel 1 Name],
+		{[Partner SCD Test].[Distribution Channel 1 Name].&[2]}) *
+[Organization].[Organization].[Organization] *
+[Article].[Article Sku].[Article Sku] *
+[Article Component].[Article Component Sku].[Article Component Sku] 
+) ON ROWS
+FROM [Sales]
+WHERE 
+{
+[Calendar Sales Report].[Year].[2025] : [Calendar Sales Report].[Year].[2027],
+[Flag Sales Report].&[Включен]
+}

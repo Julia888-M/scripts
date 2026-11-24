@@ -1,0 +1,2 @@
+select *
+from general.sts_mv_bi_md_users_api_excel

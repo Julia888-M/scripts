@@ -1,0 +1,27 @@
+SELECT
+    {
+	[Measures].[Management Revenue Net Value],
+	[Measures].[Management Revenue Quantity BUoM],
+	[Measures].[Commissioner Report Sales Net Value],
+	[Measures].[Commissioner Report Quantity BUoM]
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+            [Calendar Sales Report].[Date].[Date] *
+			[Partner].[Partner Planning Code].[Partner Planning Code]*
+			[Article].[Article Sku].[Article Sku],
+            {
+			[Measures].[Management Revenue Net Value],
+			[Measures].[Management Revenue Quantity BUoM],
+			[Measures].[Commissioner Report Sales Net Value],
+			[Measures].[Commissioner Report Quantity BUoM]
+			}
+        ),
+        ([Calendar Sales Report].[Year].CurrentMember.Name = "2024"
+		or
+		[Calendar Sales Report].[Year].CurrentMember.Name = "2025"
+		)
+		--[Partner].[Partner Distribution Channel 1].&[2]
+		and [Flag Sales Report].[Flag Sales Report].CurrentMember.Name="Включен"
+    ) ON ROWS
+FROM [Sales]

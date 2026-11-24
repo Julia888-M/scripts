@@ -1,0 +1,20 @@
+SELECT 
+	date_part('year', "date") as "year",
+	date_part('month', "date") as "month",
+--	sum("Management_Revenue_Quantity_BUoM") as "Management_Revenue_Quantity_BUoM",
+--	sum("Management_Revenue_Gross_Value") as "Management_Revenue_Gross_Value",
+--	sum("Management_Revenue_Net_Value") as "Management_Revenue_Net_Value",
+--	sum(coalesce("Revenue_Before_SPP_Gross_Value",0)) as "Revenue_Before_SPP_Gross_Value",
+--	sum(coalesce("Revenue_Before_SPP_Net_Value",0)) as "Revenue_Before_SPP_Net_Value",
+--	sum(coalesce("Revenue_After_SPP_Gross_Value",0)) as "Revenue_After_SPP_Gross_Value",
+--	sum(coalesce("Revenue_After_SPP_Net_Value",0)) as "Revenue_After_SPP_Net_Value",
+	sum("Management_Revenue_Not_Completed_Quantity_BUoM") as "Management_Revenue_Not_Completed_Quantity_BUoM",
+	sum("Management_Revenue_Not_Completed_Gross_Value") as "Management_Revenue_Not_Completed_Gross_Value",
+	sum("Management_Revenue_Not_Completed_Net_Value") as "Management_Revenue_Not_Completed_Net_Value"
+FROM "bi"."sales_revenue_article"
+where "date" >= '2026-01-01'
+and "Flag_Sales_Report" = 'Включен'
+and "DistributionChannel_1_Name" in ('Аптеки','Маркетплейсы','Прочие','Оффлайн')
+group by 1,2
+order by 1,2
+;

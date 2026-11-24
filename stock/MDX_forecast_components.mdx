@@ -1,0 +1,24 @@
+SELECT
+    {
+	[Measures].[Forecast Component Quantity BUoM],
+	[Measures].[Actual Component Quantity BUoM],
+	[Measures].[Execution Forecast Component Quantity BUoM, %]
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+            [Calendar].[Year Month].[Year Month] * 
+            [Calendar].[Year].[Year] * 
+            [Demand Scenario].[Demand Scenario].[Demand Scenario] * 
+            [Fact Type].[Fact Type].[Fact Type] * 
+            [Article Component].[Article Component Sku].[Article Component Sku]* 
+            [Partner].[Partner Planning Code].[Partner Planning Code],
+			{
+			[Measures].[Forecast Component Quantity BUoM],
+			[Measures].[Actual Component Quantity BUoM],
+			[Measures].[Execution Forecast Component Quantity BUoM, %]
+			}
+	    ),
+        [Calendar].[Year].CurrentMember.Name >= "2025"
+        AND [Demand Scenario].[Demand Scenario].CurrentMember.Name = "IBP Таргет М-1"
+    ) ON ROWS
+FROM [Demand]

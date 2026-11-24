@@ -1,0 +1,35 @@
+SELECT
+    { 
+            [Measures].[Delivered Shipment Quantity BUoM],
+            [Measures].[Delivered Shipment Component Quantity BUoM],
+            [Measures].[Delivered Shipment Component Net Value],
+            [Measures].[Order Service Level Ordered Component Net Value],
+            [Measures].[Order Service Level Execution Quantity BUoM],
+            [Measures].[Order Service Level Execution Component Quantity BUoM],
+            [Measures].[Order Service Level Total Shipment Component Net Value],
+            [Measures].[Order Service Level Ordered Quantity BUoM],
+            [Measures].[Order Service Level Ordered Component Quantity BUoM]	
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+			[Calendar Shipment Date].[Date].[Date]*
+			[Article].[Article Sku].[Article Sku]*
+			[Article Component].[Article Component Sku].[Article Component Sku]*
+			[Flag Shipment Correction].[Flag Shipment Correction].[Flag Shipment Correction]*
+			[Partner].[Partner Planning Code].[Partner Planning Code]*
+			[Document 1C].[Source Document].[Source Document]*
+			[Shipment Status].[Shipment Status].[Shipment Status],
+            {
+			[Measures].[Delivered Shipment Quantity BUoM],
+            [Measures].[Delivered Shipment Component Quantity BUoM],
+            [Measures].[Delivered Shipment Component Net Value],
+            [Measures].[Order Service Level Ordered Component Net Value],
+            [Measures].[Order Service Level Execution Quantity BUoM],
+            [Measures].[Order Service Level Execution Component Quantity BUoM],
+            [Measures].[Order Service Level Total Shipment Component Net Value],
+            [Measures].[Order Service Level Ordered Quantity BUoM],
+            [Measures].[Order Service Level Ordered Component Quantity BUoM]}
+        ),
+		CDate([Calendar Shipment Date].[Date].CurrentMember.Name) >= CDate("01.01.2024")
+    ) ON ROWS
+FROM [Sales]

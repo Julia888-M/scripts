@@ -1,0 +1,10 @@
+SELECT 
+	DESCENDANTS (
+				[Calendar Sales Report].&[2025],
+				3
+				) ON COLUMNS,
+	[Partner].[Partner Distribution Channel 1].[Partner Distribution Channel 1] ON ROWS
+FROM 
+	[Sales]
+WHERE 
+{ [Measures].[Management Revenue Net Value] }

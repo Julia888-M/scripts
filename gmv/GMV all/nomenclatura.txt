@@ -1,0 +1,19 @@
+select 
+t2.sku as "ГН.Артикул"
+, t2.ArticleLevel_2_Name as "ГН.Уровень 2"
+, t3.sku as "Комп.Артикул"
+, t3.ArticleName as "Комп.Наименование товара"
+, t3.ArticleLevel_1_Name as "Комп.Уровень 1"
+, t3.ArticleLevel_2_Name as "Комп.Уровень 2"
+, t3.ArticleLevel_3_Name as "Комп.Уровень 3"
+, t3.ArticleBrand_ReportGroup  as "Комп.Группа Отчетности"
+, t1.Quantity_ComponentPerOneMainUnit as Quantity
+from dwh_bi.dim.ArticleBomAggregated t1 
+left join dwh_bi.olap.Article as t2 on t1.ID_Article_Main      = t2.ID_Article 
+left join dwh_bi.olap.Article as t3 on t1.ID_Article_Component = t3.ID_Article
+where 1=1
+and t2.ArticleLevel_1_Name='Готовая продукция'
+and not(t2.ArticleLevel_2_Name in ('Саше (тестеры)','Аксессуары'))
+and t3.ArticleLevel_1_Name='Готовая продукция'
+and t3.ArticleLevel_2_Name<> 'Аксессуары'
+and t3.ArticleLevel_3_Name <> 'Саше (тестеры)'

@@ -1,0 +1,24 @@
+SELECT
+    { 
+            [Measures].[Delivered Shipment Quantity BUoM],
+            [Measures].[Delivered Shipment Component Quantity BUoM],
+            [Measures].[Delivered Shipment Component Net Value]
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+			[Calendar Shipment Date].[Date].[Date]*
+			[Article].[Article Sku].[Article Sku]*
+			[Article Component].[Article Component Sku].[Article Component Sku]*
+			[Flag Shipment Correction].[Flag Shipment Correction].[Flag Shipment Correction]*
+			[Partner].[Partner Planning Code].[Partner Planning Code]*
+			[Document 1C].[Source Document].[Source Document]*
+			[Shipment Status].[Shipment Status].[Shipment Status],
+            {
+			[Measures].[Delivered Shipment Quantity BUoM],
+            [Measures].[Delivered Shipment Component Quantity BUoM],
+            [Measures].[Delivered Shipment Component Net Value]
+            }
+        ),
+		CDate([Calendar Shipment Date].[Date].CurrentMember.Name) >= CDate("01.01.2024")
+    ) ON ROWS
+FROM [Sales]

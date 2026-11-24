@@ -1,0 +1,14 @@
+with t as 
+(
+select
+t2."Artikul"
+, t2."NaimenovaniePolnoe"
+, t1."Znachenie" 
+, row_number() over (partition by t2."Artikul" order by t1."DataVygruzki" desc) as rank_
+from erp.public."NomenklaturaDopolnitelnyeRekvizity"  t1
+left join erp.public."Nomenklatura" t2 on t1."SsylkaGuid"=t2."SsylkaGuid"
+where t1."Svoystvo" like '%Группа товаров на МП%'
+)
+select * from t 
+where 1=1
+and rank_=1

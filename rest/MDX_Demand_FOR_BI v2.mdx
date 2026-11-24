@@ -1,0 +1,26 @@
+WITH MEMBER [Measures].[Net Value] AS (
+IIF ([Partner].[Distribution Channel Hierarchy].[Partner Planning Name].[Вайлдберриз],null,1)
+)
+SELECT 
+{[Measures].[Quantity BUoM Forecast],[Measures].[Quantity BUoM Actual],[Measures].[Net Value Forecast],[Measures].[Net Value Actual],[Measures].[Net Value]} ON COLUMNS,
+NONEMPTY (
+CROSSJOIN(
+{[Calendar].[Year].&[2024],[Calendar].[Year].&[2025]},
+[Calendar].[Year Month].[Year Month].Members,
+{[Demand Scenario].[Demand Scenario].[IBP Таргет М-1]},
+{[Fact Type].[Fact Type].[Продажи]},
+[Article].[Article Sku].[Article Sku].Members,
+[Article].[Article Brand Report Group].[Article Brand Report Group].Members,
+--[Partner].[Distribution Channel Hierarchy].[Partner Distribution Channel 1].Members,
+[Partner].[Distribution Channel Hierarchy].[Partner Planning Name].[Яндекс Маркет],
+[Article].[Article Brand].[Article Brand].Members,
+[Article].[Article Manufacturer].[Article Manufacturer].[Лаборатория Здоровья ООО]
+),
+{[Measures].[Quantity BUoM Forecast],
+[Measures].[Quantity BUoM Actual],
+[Measures].[Net Value Forecast],
+[Measures].[Net Value Actual]}
+)
+ON ROWS
+FROM [Demand]
+

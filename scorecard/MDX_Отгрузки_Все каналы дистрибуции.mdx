@@ -1,0 +1,24 @@
+SELECT
+    {
+	[Measures].[Shipped Shipment Quantity BUoM],
+    [Measures].[Shipped Shipment Net Value],
+    [Measures].[Delivered Shipment Quantity BUoM],
+    [Measures].[Delivered Shipment Net Value]
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+            [Calendar Shipment Date].[Date].[Date] *
+			[Partner].[Partner Planning Code].[Partner Planning Code]*
+			[Article].[Article Sku].[Article Sku],
+			{
+			[Measures].[Shipped Shipment Quantity BUoM],
+			[Measures].[Shipped Shipment Net Value],
+			[Measures].[Delivered Shipment Quantity BUoM],
+			[Measures].[Delivered Shipment Net Value]
+			}
+        ),
+        ([Calendar Shipment Date].[Year].CurrentMember.Name = "2025" 
+		or [Calendar Shipment Date].[Year].CurrentMember.Name = "2024")
+		) ON ROWS
+FROM [Sales]
+

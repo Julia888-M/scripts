@@ -1,0 +1,8 @@
+SELECT 
+{
+[Partner].[Partner Planning Code].[Partner Planning Code].MEMBERS *
+[Partner].[Partner Planning Name].[Partner Planning Name].MEMBERS *
+[Partner].[Partner Distribution Channel 1].[Partner Distribution Channel 1].MEMBERS
+} ON ROWS,
+{} ON COLUMNS
+FROM [Sales]

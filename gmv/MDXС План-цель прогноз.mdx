@@ -1,0 +1,23 @@
+SELECT 
+NON EMPTY
+ (
+	{
+	[Measures].[Forecast Net Value],
+    [Measures].[Forecast Quantity BUoM]
+	} 
+) ON COLUMNS,
+	
+NON EMPTY
+	( 
+		[Demand Scenario].[Demand Scenario].&[18] *
+		[Calendar].[Year Month].[Year Month] *
+		[Partner].[Partner Planning Code].[Partner Planning Code] *
+		[Article].[Article Sku].[Article Sku]
+		)
+	ON ROWS	
+FROM [Demand]
+WHERE
+	(
+		[Fact Type].[Fact Type].&[2],
+		[Calendar].[Year].&[2025]
+	)

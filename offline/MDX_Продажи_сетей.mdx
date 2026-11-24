@@ -1,0 +1,28 @@
+SELECT
+    {
+	[Measures].[PY Management Revenue Net Value],
+	[Measures].[Management Revenue Net Value],
+	[Measures].[Management Revenue Quantity BUoM],
+	[Measures].[Management Revenue Not Completed Net Value]
+
+	} ON COLUMNS,
+    FILTER(
+        NONEMPTY(
+            [Calendar Sales Report].[Date].[Date] *
+			[Partner].[Partner Planning Code].[Partner Planning Code]*
+			[Article].[Article Sku].[Article Sku]*
+			[Partner].[Partner Planning Manager].[Partner Planning Manager],
+            {
+			[Measures].[PY Management Revenue Net Value],
+			[Measures].[Management Revenue Net Value],
+			[Measures].[Management Revenue Quantity BUoM],
+			[Measures].[Management Revenue Not Completed Net Value]
+			}
+        ),
+        ([Calendar Sales Report].[Year].CurrentMember.Name = "2025" or [Calendar Sales Report].[Year].CurrentMember.Name = "2024")
+		and 
+		([Partner].[Partner Distribution Channel 1].CurrentMember.Name="Оффлайн"
+		and [Flag Sales Report].[Flag Sales Report].CurrentMember.Name="Включен"
+    )) ON ROWS
+FROM [Sales]
+

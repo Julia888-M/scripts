@@ -1,0 +1,17 @@
+SELECT 
+{[Measures].[Net Value Actual]} ON COLUMNS,
+ORDER(
+NONEMPTY(
+CROSSJOIN(
+{[Calendar].[Year].&[2024],[Calendar].[Year].&[2025]},
+[Calendar].[Year Month].[Year Month].Members,
+[Partner].[Distribution Channel Hierarchy].[Partner Planning Name].[Вайлдберриз]
+),
+[Measures].[Net Value Actual]
+),
+[Measures].[Net Value Actual]
+,DESC)ON ROWS
+FROM [Demand]
+WHERE ({[Demand Scenario].[Demand Scenario].[IBP Таргет М-1]},
+{[Fact Type].[Fact Type].[Продажи]}
+)

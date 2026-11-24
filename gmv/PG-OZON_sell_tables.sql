@@ -1,0 +1,18 @@
+SET statement_timeout TO 7200000;
+SELECT
+    --t1.operation_date as operation_date,
+    --t1.ozon_token_id,
+    --t2.offer_id,
+    SUM(CASE WHEN t1.type = 'returns' THEN abs(t1.sku_count)* -1 ELSE t1.sku_count END) AS quantity,
+    SUM(CASE WHEN t1.type = 'returns' THEN abs(t1.accruals_for_sale)* -1 ELSE t1.accruals_for_sale END) AS sum_with_nds
+FROM ozon.ozon_api_seller_transactions_nm t1
+LEFT JOIN ozon.ozon_api_seller_products t2
+    ON t1.sku = t2.sku
+WHERE t1.operation_date  >= current_date - 15
+AND t1.operation_date < current_date + 1
+AND t1.accruals_for_sale <> 0
+--GROUP BY
+   -- t1.operation_date,
+   -- t1.ozon_token_id,
+   -- t2.offer_id
+--order by operation_date  desc     -

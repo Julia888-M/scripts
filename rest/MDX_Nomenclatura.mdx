@@ -1,0 +1,9 @@
+SELECT 
+(
+[Article].[Article Sku].[Article Sku].MEMBERS *
+[Article].[Article Manufacturer].[Article Manufacturer].MEMBERS *
+[Article].[Article Brand Report Group].[Article Brand Report Group].Members *
+[Article].[Article Brand].[Article Brand].Members
+) ON ROWS,
+[Measures].[Net Value Actual] ON COLUMNS
+FROM [Demand]

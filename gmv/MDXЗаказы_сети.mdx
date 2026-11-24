@@ -1,0 +1,26 @@
+SELECT 
+{
+[Measures].[Management Revenue Not Completed Component Quantity BUoM],
+[Measures].[Management Revenue Not Completed Component Net Value],
+[Measures].[Management Revenue Not Completed Quantity BUoM]
+} ON COLUMNS,
+NON EMPTY
+(
+[Calendar Sales Document Date].[Date].[Date] *
+[Partner].[Partner Planning Code].[Partner Planning Code] *
+[Partner].[Partner Planning Name].[Partner Planning Name] *
+EXCEPT ([Partner].[Partner Distribution Channel 1].[Partner Distribution Channel 1],
+		{[Partner].[Partner Distribution Channel 1].&[2]}) *
+[Organization].[Organization].[Organization] *
+[Article].[Article Sku].[Article Sku] *
+[Article Component].[Article Component Sku].[Article Component Sku] 
+) ON ROWS
+FROM [Sales]
+WHERE 
+{
+[Calendar Sales Document Date].[Year Month].[Year Month].&[2025020308]
+:
+[Calendar Sales Document Date].[Year Month].[Year Month].&[2025020410],
+
+[Flag Sales Report].&[Включен]
+}

@@ -1,0 +1,45 @@
+SELECT 
+nPartYearMonth
+/*, ID_Order
+, ID_SalesDocument
+, ID_SalesDocumentCorrection
+, ID_Return
+, ID_CommissionerReport
+, ID_CommissionerReportPreliminary
+, ID_RetailSalesReport
+, ID_RetailReturnsReport
+, ID_Document1C
+, ID_Article
+, ID_ArticleCharacteristic
+, ID_Article_Component
+, ID_FlagSalesReport
+, ID_ShipmentSubStatus
+, ID_Calendar_SalesReportDate
+, ID_Counterparty
+, ID_Contract
+, ID_CounterpartyAgreement
+, ID_Organization
+, ID_SalesChannel
+, ID_Partner
+, ID_Scd_Partner
+, ID_FlagGift*/
+/*, sum(AccountingRevenue_Component_Quantity_BUoM) as AccountingRevenue_Component_Quantity_BUoM
+, sum(AccountingRevenue_NotCompleted_Component_Quantity_BUoM) as AccountingRevenue_NotCompleted_Component_Quantity_BUoM
+, sum(AccountingRevenue_Component_NetValue) as AccountingRevenue_Component_NetValue
+, sum(AccountingRevenue_Component_GrossValue) as AccountingRevenue_Component_GrossValue
+, sum(AccountingRevenue_Component_VAT) as AccountingRevenue_Component_VAT
+, sum(AccountingRevenue_NotCompleted_Component_NetValue) as AccountingRevenue_NotCompleted_Component_NetValue
+, sum(AccountingRevenue_NotCompleted_Component_GrossValue) as AccountingRevenue_NotCompleted_Component_GrossValue
+, sum(AccountingRevenue_NotCompleted_Component_VAT) as AccountingRevenue_NotCompleted_Component_VAT
+, sum(ManagementRevenue_Component_Quantity_BUoM) as ManagementRevenue_Component_Quantity_BUoM
+, sum(ManagementRevenue_NotCompleted_Component_Quantity_BUoM) as ManagementRevenue_NotCompleted_Component_Quantity_BUoM*/
+, sum(ManagementRevenue_Component_NetValue) as ManagementRevenue_Component_NetValue
+, sum(ManagementRevenue_Component_GrossValue) as ManagementRevenue_Component_GrossValue
+, sum(ManagementRevenue_Component_VAT) as ManagementRevenue_Component_VAT
+, sum(ManagementRevenue_NotCompleted_Component_NetValue) as ManagementRevenue_NotCompleted_Component_NetValue
+, sum(ManagementRevenue_NotCompleted_Component_GrossValue) as ManagementRevenue_NotCompleted_Component_GrossValue
+, sum(ManagementRevenue_NotCompleted_Component_VAT) as ManagementRevenue_NotCompleted_Component_VAT
+FROM DWH_BI.olap.SalesComponentMeasure_new
+WHERE nPartYearMonth like '%2026%'
+group by nPartYearMonth
+order by nPartYearMonth;

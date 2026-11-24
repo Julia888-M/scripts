@@ -1,0 +1,32 @@
+SELECT
+NON EMPTY
+{
+[Measures].[Order Service Level Ordered Quantity BUoM],
+[Measures].[Order Service Level Total Shipment Quantity BUoM]
+} ON 0,
+NON EMPTY
+(
+	[Calendar Shipment Date].[Date].[Date].MEMBERS *
+	[Partner].[Partner Planning Code].[Partner Planning Code].MEMBERS *
+	[Article].[Article Sku].[Article Sku].MEMBERS 
+//	EXCEPT( 
+//		[Rejection Reason].[Rejection Reason].[Rejection Reason].MEMBERS,
+//		{
+//		[Rejection Reason].[Rejection Reason].[Вывод],
+//		[Rejection Reason].[Rejection Reason].[Ошибка клиента],
+//		[Rejection Reason].[Rejection Reason].[Оформлен дубль заказа],
+//		[Rejection Reason].[Rejection Reason].[Ошибочно оформлен / тест]
+//		}
+//		) 
+) ON 1
+FROM [Sales]
+WHERE 
+EXCEPT( 
+		[Rejection Reason].[Rejection Reason].[Rejection Reason].MEMBERS,
+		{
+		[Rejection Reason].[Rejection Reason].[Вывод],
+		[Rejection Reason].[Rejection Reason].[Ошибка клиента],
+		[Rejection Reason].[Rejection Reason].[Оформлен дубль заказа],
+		[Rejection Reason].[Rejection Reason].[Ошибочно оформлен / тест]
+		}
+		) 
